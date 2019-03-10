@@ -101,6 +101,7 @@ modules.xml
 
 # Package Files #
 *.jar
+!gradle/**/*.jar
 *.war
 *.nar
 *.ear
