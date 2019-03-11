@@ -26,6 +26,7 @@
 package it.norangeb.algorithms.datastructures.queue
 
 import arrow.core.None
+import arrow.core.Some
 import arrow.core.getOrElse
 import org.amshove.kluent.`should be equal to`
 import org.junit.jupiter.api.Test
@@ -60,6 +61,16 @@ class ResizingArrayQueueTest {
         queue.enqueue(1)
         queue.dequeue().getOrElse { 0 } `should be equal to` 1
         queue.size() `should be equal to` 0
+    }
+
+    @Test
+    fun testPeek() {
+        val queue = ResizingArrayQueue<Int>()
+
+        (queue.peek() is None) `should be equal to` true
+        queue.enqueue(1)
+        (queue.peek() is Some) `should be equal to` true
+        queue.size() `should be equal to` 1
     }
 
     @Test

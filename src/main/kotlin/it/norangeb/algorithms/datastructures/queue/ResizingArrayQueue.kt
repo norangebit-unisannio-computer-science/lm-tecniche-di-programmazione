@@ -51,10 +51,11 @@ class ResizingArrayQueue<T>(capacity: Int = DEFAULT_CAPACITY) : Queue<T> {
     }
 
     override fun dequeue(): Option<T> {
-        if (isEmpty())
-            return None
+        val elem = peek()
 
-        val elem = queue[head]
+        if (elem is None)
+            return elem
+
         queue[head] = null
         head = (head + 1) % queue.size
         size--
@@ -62,7 +63,14 @@ class ResizingArrayQueue<T>(capacity: Int = DEFAULT_CAPACITY) : Queue<T> {
         if (isOneQuarterFull())
             resizeArray(queue.size / RESIZE_FACTOR)
 
-        return elem.toOption()
+        return elem
+    }
+
+    override fun peek(): Option<T> {
+        if (isEmpty())
+            return None
+
+        return queue[head].toOption()
     }
 
     private fun resizeArray(capacity: Int) {

@@ -30,6 +30,7 @@ import arrow.core.Option
 interface Queue<T> {
     fun enqueue(elem: T)
     fun dequeue(): Option<T>
+    fun peek(): Option<T>
     fun isEmpty(): Boolean
     fun size(): Int
     fun clean()

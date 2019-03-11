@@ -71,7 +71,7 @@ class ResizingArrayStackTest {
     }
 
     @Test
-    fun testIncrease() {
+    fun testIncreaseSize() {
         val stack = ResizingArrayStack<Int>()
 
         stack.push(1)
@@ -82,7 +82,7 @@ class ResizingArrayStackTest {
     }
 
     @Test
-    fun testDescrese() {
+    fun testDecreaseSize() {
         val stack = ResizingArrayStack<Int>()
 
         stack.push(1)
