@@ -107,7 +107,8 @@ class ResizingArrayQueue<T>(capacity: Int = DEFAULT_CAPACITY) : Queue<T> {
     }
 
     override fun <A> map(transform: (T) -> A): Queue<A> {
-        val transformedQueue: Array<A?> = arrayOfNulls<Any>(queue.size) as Array<A?>
+        val transformedQueue: Array<A?> = arrayOfNulls<Any>(queue.size)
+                as Array<A?>
 
         for (i in 0 until queue.size) {
             val elem = queue[i]
@@ -127,7 +128,12 @@ class ResizingArrayQueue<T>(capacity: Int = DEFAULT_CAPACITY) : Queue<T> {
         head = 0
     }
 
-    private constructor(queue: Array<T?>, head: Int, tail: Int, size: Int) : this() {
+    private constructor(
+        queue: Array<T?>,
+        head: Int,
+        tail: Int,
+        size: Int
+    ) : this() {
         this.queue = queue
         this.head = head
         this.tail = tail

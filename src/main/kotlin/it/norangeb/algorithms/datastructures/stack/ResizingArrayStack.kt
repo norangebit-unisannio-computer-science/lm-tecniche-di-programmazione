@@ -81,7 +81,8 @@ class ResizingArrayStack<T>(capacity: Int = DEFAULT_CAPACITY) : Stack<T> {
     }
 
     override fun <A> map(transform: (T) -> A): Stack<A> {
-        val transformedStack: Array<A?> = arrayOfNulls<Any>(stack.size) as Array<A?>
+        val transformedStack: Array<A?> = arrayOfNulls<Any>(stack.size)
+                as Array<A?>
 
         for (i in 0 until stack.size) {
             val elem = stack[i]
