@@ -28,14 +28,19 @@ package it.norangeb.algorithms.datastructures.stack
 import arrow.core.None
 import arrow.core.getOrElse
 import org.amshove.kluent.`should be equal to`
+import org.junit.Before
 import org.junit.jupiter.api.Test
 
 class ResizingArrayStackTest {
+    private var stack = ResizingArrayStack<Int>()
+
+    @Before
+    fun makeStack() {
+        stack = ResizingArrayStack()
+    }
 
     @Test
     fun testPush() {
-        val stack = ResizingArrayStack<Int>()
-
         stack.size() `should be equal to` 0
         stack.push(1)
         stack.size() `should be equal to` 1
@@ -43,8 +48,6 @@ class ResizingArrayStackTest {
 
     @Test
     fun testIsEmpty() {
-        val stack = ResizingArrayStack<Int>()
-
         stack.isEmpty() `should be equal to` true
         stack.push(1)
         stack.isEmpty() `should be equal to` false
@@ -52,8 +55,6 @@ class ResizingArrayStackTest {
 
     @Test
     fun testPeek() {
-        val stack = ResizingArrayStack<Int>()
-
         (stack.peek() is None) `should be equal to` true
         stack.push(1)
         (stack.peek().getOrElse { 0 }) `should be equal to` 1
@@ -62,8 +63,6 @@ class ResizingArrayStackTest {
 
     @Test
     fun testPop() {
-        val stack = ResizingArrayStack<Int>()
-
         (stack.pop() is None) `should be equal to` true
         stack.push(1)
         (stack.pop().getOrElse { 0 }) `should be equal to` 1
@@ -72,8 +71,6 @@ class ResizingArrayStackTest {
 
     @Test
     fun testIncreaseSize() {
-        val stack = ResizingArrayStack<Int>()
-
         stack.push(1)
         stack.push(2)
         stack.push(3)
@@ -83,8 +80,6 @@ class ResizingArrayStackTest {
 
     @Test
     fun testDecreaseSize() {
-        val stack = ResizingArrayStack<Int>()
-
         stack.push(1)
         stack.push(2)
         stack.push(3)
@@ -100,15 +95,13 @@ class ResizingArrayStackTest {
 
     @Test
     fun testMap() {
-        val stack = ResizingArrayStack<Int>()
-
         stack.push(1)
         stack.push(2)
         stack.push(3)
         stack.push(4)
         stack.push(5)
 
-        val newStack = stack.map { it * 2 } as ResizingArrayStack
+        val newStack = stack.map { it * 2 }
 
         newStack.size() `should be equal to` 5
         newStack.pop().getOrElse { 0 } `should be equal to` 10
@@ -120,8 +113,6 @@ class ResizingArrayStackTest {
 
     @Test
     fun testForEach() {
-        val stack = ResizingArrayStack<Int>()
-
         stack.push(1)
         stack.push(2)
         stack.push(3)
@@ -136,8 +127,6 @@ class ResizingArrayStackTest {
 
     @Test
     fun testClean() {
-        val stack = ResizingArrayStack<Int>()
-
         stack.push(1)
         stack.push(2)
         stack.clean()

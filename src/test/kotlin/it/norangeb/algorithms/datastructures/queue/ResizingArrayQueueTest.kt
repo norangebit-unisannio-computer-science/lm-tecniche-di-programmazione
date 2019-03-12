@@ -29,13 +29,19 @@ import arrow.core.None
 import arrow.core.Some
 import arrow.core.getOrElse
 import org.amshove.kluent.`should be equal to`
+import org.junit.Before
 import org.junit.jupiter.api.Test
 
 class ResizingArrayQueueTest {
+    private var queue = ResizingArrayQueue<Int>()
+
+    @Before
+    fun makeQueue() {
+        queue = ResizingArrayQueue()
+    }
 
     @Test
     fun testEnqueue() {
-        val queue = ResizingArrayQueue<Int>()
         queue.size() `should be equal to` 0
         queue.enqueue(1)
         queue.size() `should be equal to` 1
@@ -45,8 +51,6 @@ class ResizingArrayQueueTest {
 
     @Test
     fun testIsEmpty() {
-        val queue = ResizingArrayQueue<Int>()
-
         queue.isEmpty() `should be equal to` true
         queue.enqueue(1)
         queue.isEmpty() `should be equal to` false
@@ -54,8 +58,6 @@ class ResizingArrayQueueTest {
 
     @Test
     fun testDequeue() {
-        val queue = ResizingArrayQueue<Int>()
-
         queue.size() `should be equal to` 0
         (queue.dequeue() is None) `should be equal to` true
         queue.enqueue(1)
@@ -65,8 +67,6 @@ class ResizingArrayQueueTest {
 
     @Test
     fun testPeek() {
-        val queue = ResizingArrayQueue<Int>()
-
         (queue.peek() is None) `should be equal to` true
         queue.enqueue(1)
         (queue.peek() is Some) `should be equal to` true
@@ -75,8 +75,6 @@ class ResizingArrayQueueTest {
 
     @Test
     fun testIncreaseSize() {
-        val queue = ResizingArrayQueue<Int>()
-
         queue.enqueue(1)
         queue.enqueue(2)
         queue.enqueue(3)
@@ -86,8 +84,6 @@ class ResizingArrayQueueTest {
 
     @Test
     fun testDecreaseSize() {
-        val queue = ResizingArrayQueue<Int>()
-
         queue.enqueue(1)
         queue.enqueue(2)
         queue.enqueue(3)
@@ -103,15 +99,13 @@ class ResizingArrayQueueTest {
 
     @Test
     fun testMap() {
-        val queue = ResizingArrayQueue<Int>()
-
         queue.enqueue(1)
         queue.enqueue(2)
         queue.enqueue(3)
         queue.enqueue(4)
         queue.enqueue(5)
 
-        val newQueue = queue.map { it * 2 } as ResizingArrayQueue
+        val newQueue = queue.map { it * 2 }
 
         newQueue.size() `should be equal to` 5
         newQueue.dequeue().getOrElse { 0 } `should be equal to` 2
@@ -123,8 +117,6 @@ class ResizingArrayQueueTest {
 
     @Test
     fun testForEach() {
-        val queue = ResizingArrayQueue<Int>()
-
         queue.enqueue(1)
         queue.enqueue(2)
         queue.enqueue(3)
@@ -139,8 +131,6 @@ class ResizingArrayQueueTest {
 
     @Test
     fun testClean() {
-        val queue = ResizingArrayQueue<Int>()
-
         queue.enqueue(1)
         queue.enqueue(2)
         queue.clean()
