@@ -30,6 +30,7 @@ import org.koin.standalone.KoinComponent
 import org.koin.standalone.StandAloneContext.startKoin
 import org.koin.standalone.inject
 import java.io.PrintStream
+import kotlin.math.roundToInt
 import kotlin.random.Random
 import kotlin.system.measureNanoTime
 
@@ -39,37 +40,64 @@ fun main(args: Array<String>) {
     val outEnqueueData = PrintStream(args[0])
     val outEnDeQueueData = PrintStream(args[1])
 
-    TimeMeasure().run(outEnqueueData, outEnDeQueueData)
+    TimeMeasure(outEnqueueData, outEnDeQueueData)
+        .run()
 }
 
 val queueModule = module {
     single { ResizingArrayQueue<Int>() as Queue<Int> }
 }
 
-class TimeMeasure : KoinComponent {
+class TimeMeasure(
+    private val outEnqueueData: PrintStream,
+    private val outEnDeQueueData: PrintStream
+) : KoinComponent {
     private val queue: Queue<Int> by inject()
 
-    fun run(outEnqueueData: PrintStream, outEnDeQueueData: PrintStream) {
-        (0..100000).map {
-            measureNanoTime {
-                queue.enqueue(1)
+    fun run() {
+        (0 until NUMBER_OF_ITERATION).map {
+            queue.clean()
+            val numberOfSamples = DEFAULT_SAMPLES *
+                    Math.pow(GROWTH_FACTOR.toDouble(), it.toDouble())
+                        .roundToInt()
+
+            val totalTime = measureNanoTime {
+                repeat(numberOfSamples) {
+                    queue.enqueue(1)
+                }
             }
+
+            Pair(numberOfSamples, totalTime)
         }.forEach {
-            outEnqueueData.println(it)
+            outEnqueueData.println("${it.first}, ${it.second}")
         }
 
         val random = Random(System.currentTimeMillis())
-        queue.clean()
 
-        (0..100000).map {
-            measureNanoTime {
-                if (random.nextBoolean())
-                    queue.enqueue(1)
-                else
-                    queue.dequeue()
+        (0 until NUMBER_OF_ITERATION).map {
+            queue.clean()
+            val numberOfSamples = DEFAULT_SAMPLES *
+                    Math.pow(GROWTH_FACTOR.toDouble(), it.toDouble())
+                        .roundToInt()
+
+            val totalTime = measureNanoTime {
+                repeat(numberOfSamples) {
+                    if (random.nextBoolean())
+                        queue.enqueue(1)
+                    else
+                        queue.dequeue()
+                }
             }
+
+            Pair(numberOfSamples, totalTime)
         }.forEach {
-            outEnDeQueueData.println(it)
+            outEnDeQueueData.println("${it.first}, ${it.second}")
         }
+    }
+
+    companion object {
+        const val DEFAULT_SAMPLES = 1000
+        const val NUMBER_OF_ITERATION = 15
+        const val GROWTH_FACTOR = 2
     }
 }

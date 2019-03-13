@@ -27,9 +27,10 @@ package it.norangeb.algorithms.datastructures.stack
 
 import org.koin.dsl.module.module
 import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
 import org.koin.standalone.StandAloneContext.startKoin
+import org.koin.standalone.inject
 import java.io.PrintStream
+import kotlin.math.roundToInt
 import kotlin.random.Random
 import kotlin.system.measureNanoTime
 
@@ -39,37 +40,64 @@ fun main(args: Array<String>) {
     val outPushData = PrintStream(args[0])
     val outPushPopData = PrintStream(args[1])
 
-    MeasureTime().run(outPushData, outPushPopData)
+    TimeMeasure(outPushData, outPushPopData)
+        .run()
 }
 
 val stackModule = module {
     single { ResizingArrayStack<Int>() as Stack<Int> }
 }
 
-class MeasureTime : KoinComponent {
+class TimeMeasure(
+    private val outPushData: PrintStream,
+    private val outPushPopData: PrintStream
+) : KoinComponent {
     private val stack: Stack<Int> by inject()
 
-    fun run(outPushData: PrintStream, outPushPopData: PrintStream) {
-        (0..100000).map {
-            measureNanoTime {
-                stack.push(1)
+    fun run() {
+        (0 until NUMBER_OF_ITERATION).map {
+            stack.clean()
+            val numberOfSamples = DEFAULT_SAMPLES *
+                    Math.pow(GROWTH_FACTOR.toDouble(), it.toDouble())
+                        .roundToInt()
+
+            val totalTime = measureNanoTime {
+                repeat(numberOfSamples) {
+                    stack.push(1)
+                }
             }
+
+            Pair(numberOfSamples, totalTime)
         }.forEach {
-            outPushData.println(it)
+            outPushData.println("${it.first}, ${it.second}")
         }
 
         val random = Random(System.currentTimeMillis())
-        stack.clean()
 
-        (0..100000).map {
-            measureNanoTime {
-                if (random.nextBoolean())
-                    stack.push(1)
-                else
-                    stack.pop()
+        (0 until NUMBER_OF_ITERATION).map {
+            stack.clean()
+            val numberOfSamples = DEFAULT_SAMPLES *
+                    Math.pow(GROWTH_FACTOR.toDouble(), it.toDouble())
+                        .roundToInt()
+
+            val totalTime = measureNanoTime {
+                repeat(numberOfSamples) {
+                    if (random.nextBoolean())
+                        stack.push(1)
+                    else
+                        stack.pop()
+                }
             }
+
+            Pair(numberOfSamples, totalTime)
         }.forEach {
-            outPushPopData.println(it)
+            outPushPopData.println("${it.first}, ${it.second}")
         }
+    }
+
+    companion object {
+        const val DEFAULT_SAMPLES = 1000
+        const val NUMBER_OF_ITERATION = 15
+        const val GROWTH_FACTOR = 2
     }
 }
