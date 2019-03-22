@@ -67,4 +67,42 @@ class PrefixAverageTest {
 
         arrayOut `should equal` intArrayOf(21, 21, 21, 21, 21)
     }
+
+    @Test
+    fun testNominalCaseRecursive() {
+        val arrayIn = intArrayOf(21, 23, 25, 31, 20, 18, 16)
+
+        val arrayOut = PrefixAverage.recursivePrefixAverage(arrayIn)
+
+        arrayOut `should equal` intArrayOf(
+            21, 22, 23, 25, 24, 23, 22
+        )
+    }
+
+    @Test
+    fun testEmptyArrayRecursive() {
+        val arrayIn = intArrayOf()
+
+        val arrayOut = PrefixAverage.recursivePrefixAverage(arrayIn)
+
+        arrayOut `should equal` intArrayOf()
+    }
+
+    @Test
+    fun testOneElementArrayRecursive() {
+        val arrayIn = intArrayOf(25)
+
+        val arrayOut = PrefixAverage.recursivePrefixAverage(arrayIn)
+
+        arrayOut `should equal` intArrayOf(25)
+    }
+
+    @Test
+    fun testAlwaysSameElementArrayRecursive() {
+        val arrayIn = intArrayOf(21, 21, 21, 21, 21)
+
+        val arrayOut = PrefixAverage.recursivePrefixAverage(arrayIn)
+
+        arrayOut `should equal` intArrayOf(21, 21, 21, 21, 21)
+    }
 }
