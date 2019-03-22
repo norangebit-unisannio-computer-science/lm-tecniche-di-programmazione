@@ -7,10 +7,6 @@ plugins {
 group = "norangebit"
 version = "0.0.1"
 
-val arrowVersion = "0.8.2"
-val kluentVersion = "1.48"
-val koinVersion = "1.0.2"
-
 repositories {
     mavenCentral()
     jcenter()
@@ -18,13 +14,19 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation("io.arrow-kt:arrow-core:$arrowVersion")
-    implementation("org.koin:koin-core:$koinVersion")
+    implementation(Config.Libs.arrowCore)
+    implementation(Config.Libs.koin)
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.1.0")
-    testImplementation("org.amshove.kluent:kluent:$kluentVersion")
+    testImplementation(Config.Libs.junit)
+    testImplementation(Config.Libs.kluent)
+    // testImplementation(Config.Libs.spekDsl)
+
+    // testRuntimeOnly(Config.Libs.kotlinReflect)
+    // testRuntimeOnly(Config.Libs.spekRunner)
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+tasks.register("ktlint", Ktlint::class)
