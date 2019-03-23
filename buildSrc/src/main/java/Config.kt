@@ -31,6 +31,7 @@ object Config {
         val junit = "5.1.0"
         val spek = "2.0.1"
         val kotlin = "1.3.21."
+        val mockk = "1.9.2"
     }
 
     object Libs {
@@ -41,5 +42,6 @@ object Config {
         val spekDsl = "org.spekframework.spek2:spek-dsl-jvm:${Versions.spek}"
         val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
         val spekRunner = "org.spekframework.spek2:spek-runner-junit5:${Versions.spek}"
+        val mockk = "io.mockk:mockk:${Versions.mockk}"
     }
 }

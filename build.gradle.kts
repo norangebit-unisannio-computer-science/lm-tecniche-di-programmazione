@@ -19,6 +19,7 @@ dependencies {
 
     testImplementation(Config.Libs.junit)
     testImplementation(Config.Libs.kluent)
+    testImplementation(Config.Libs.mockk)
     // testImplementation(Config.Libs.spekDsl)
 
     // testRuntimeOnly(Config.Libs.kotlinReflect)
