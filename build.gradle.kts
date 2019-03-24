@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.21"
+    kotlin("jvm") version Config.Versions.kotlin
 }
 
 group = "norangebit"
@@ -16,6 +16,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(Config.Libs.arrowCore)
     implementation(Config.Libs.koin)
+    implementation(Config.Libs.gson)
 
     testImplementation(Config.Libs.junit)
     testImplementation(Config.Libs.kluent)

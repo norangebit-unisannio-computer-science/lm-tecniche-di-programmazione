@@ -25,6 +25,7 @@
 
 package it.norangeb.algorithms.exercises
 
+import com.google.gson.Gson
 import io.mockk.every
 import io.mockk.mockk
 import org.amshove.kluent.`should equal`
@@ -43,22 +44,30 @@ class BranchAndMergeTest {
             .find { it.name == "branch" }
             .also { it?.isAccessible = true }
 
-        val list1 = arrayListOf<Int>()
-        val list2 = arrayListOf<Int>()
+        val list1 = arrayListOf<String>()
+        val list2 = arrayListOf<String>()
         val source = mockk<Scanner>()
         val destination1 = mockk<PrintStream>()
         val destination2 = mockk<PrintStream>()
 
-        every { source.hasNextInt() } returnsMany
+        every { source.hasNextLine() } returnsMany
                 listOf(true, true, true, true, true, false)
-        every { source.nextInt() } returnsMany listOf(3, 1, 4, 2, 0)
-        every { destination1.println(any() as Int) } answers { list1.add(arg(0)) }
-        every { destination2.println(any() as Int) } answers { list2.add(arg(0)) }
+        every { source.nextLine() } returnsMany
+                listOf(3, 1, 4, 2, 0).map { it.toString() }
+        every { destination1.println(any() as String) } answers { list1.add(arg(0)) }
+        every { destination2.println(any() as String) } answers { list2.add(arg(0)) }
 
-        branch?.call(BranchAndMerge, source, destination1, destination2)
+        branch?.call(
+            BranchAndMerge(Int::class.java, this::defaultComparator),
+            source,
+            destination1,
+            destination2
+        )
 
-        list1.toIntArray() `should equal` intArrayOf(3, 2)
-        list2.toIntArray() `should equal` intArrayOf(1, 4, 0)
+        list1.map { it.toInt() }
+            .toIntArray() `should equal` intArrayOf(3, 2)
+        list2.map { it.toInt() }
+            .toIntArray() `should equal` intArrayOf(1, 4, 0)
     }
 
     @Test
@@ -67,21 +76,29 @@ class BranchAndMergeTest {
             .find { it.name == "branch" }
             .also { it?.isAccessible = true }
 
-        val list1 = arrayListOf<Int>()
-        val list2 = arrayListOf<Int>()
+        val list1 = arrayListOf<String>()
+        val list2 = arrayListOf<String>()
         val source = mockk<Scanner>()
         val destination1 = mockk<PrintStream>()
         val destination2 = mockk<PrintStream>()
 
-        every { source.hasNextInt() } returnsMany
+        every { source.hasNextLine() } returnsMany
                 listOf(true, true, true, true, true, false)
-        every { source.nextInt() } returnsMany listOf(1, 2, 3, 10, 12)
-        every { destination1.println(any() as Int) } answers { list1.add(arg(0)) }
+        every { source.nextLine() } returnsMany
+                listOf(1, 2, 3, 10, 12).map { it.toString() }
+        every { destination1.println(any() as String) } answers { list1.add(arg(0)) }
 
-        branch?.call(BranchAndMerge, source, destination1, destination2)
+        branch?.call(
+            BranchAndMerge(Int::class.java, this::defaultComparator),
+            source,
+            destination1,
+            destination2
+        )
 
-        list1.toIntArray() `should equal` intArrayOf(1, 2, 3, 10, 12)
-        list2.toIntArray() `should equal` intArrayOf()
+        list1.map { it.toInt() }
+            .toIntArray() `should equal` intArrayOf(1, 2, 3, 10, 12)
+        list2.map { it.toInt() }
+            .toIntArray() `should equal` intArrayOf()
     }
 
     @Test
@@ -90,23 +107,33 @@ class BranchAndMergeTest {
             .find { it.name == "merge" }
             .also { it?.isAccessible = true }
 
-        val list = arrayListOf<Int>()
+        val list = arrayListOf<String>()
         val source1 = mockk<Scanner>()
         val source2 = mockk<Scanner>()
         val destination = mockk<PrintStream>()
 
-        every { source1.hasNextInt() } returnsMany
+        every { source1.hasNextLine() } returnsMany
                 listOf(true, true, true, false)
-        every { source1.nextInt() } returnsMany listOf(3, 2)
-        every { source2.hasNextInt() } returnsMany
+        every { source1.nextLine() } returnsMany
+                listOf(3, 2).map { it.toString() }
+        every { source2.hasNextLine() } returnsMany
                 listOf(true, true, true, true, false)
-        every { source2.nextInt() } returnsMany listOf(1, 4, 0)
-        every { destination.println(any() as Int) } answers { list.add(arg(0)) }
-        every { destination.println(any() as Int?) } answers { list.add(arg(0)) }
+        every { source2.nextLine() } returnsMany
+                listOf(1, 4, 0).map { it.toString() }
+        every { destination.println(any() as String) }
+            .answers { list.add(arg(0)) }
+        every { destination.println(any() as String?) }
+            .answers { list.add(arg(0)) }
 
-        merge?.call(BranchAndMerge, source1, source2, destination)
+        merge?.call(
+            BranchAndMerge(Int::class.java, this::defaultComparator),
+            source1,
+            source2,
+            destination
+        )
 
-        list.toIntArray() `should equal` intArrayOf(1, 3, 2, 4, 0)
+        list.map { it.toInt() }
+            .toIntArray() `should equal` intArrayOf(1, 3, 2, 4, 0)
     }
 
     @Test
@@ -119,10 +146,16 @@ class BranchAndMergeTest {
         val source2 = mockk<Scanner>()
 
         val result1 = switchSource?.call(
-            BranchAndMerge, source1, source1, source2
+            BranchAndMerge(Int::class.java, this::defaultComparator),
+            source1,
+            source1,
+            source2
         )
         val result2 = switchSource?.call(
-            BranchAndMerge, source2, source1, source2
+            BranchAndMerge(Int::class.java, this::defaultComparator),
+            source2,
+            source1,
+            source2
         )
 
         result1 `should equal` source2
@@ -139,10 +172,16 @@ class BranchAndMergeTest {
         val destination2 = mockk<PrintStream>()
 
         val result1 = switchDestination?.call(
-            BranchAndMerge, destination1, destination1, destination2
+            BranchAndMerge(Int::class.java, this::defaultComparator),
+            destination1,
+            destination1,
+            destination2
         )
         val result2 = switchDestination?.call(
-            BranchAndMerge, destination2, destination1, destination2
+            BranchAndMerge(Int::class.java, this::defaultComparator),
+            destination2,
+            destination1,
+            destination2
         )
 
         result1 `should equal` destination2
@@ -155,20 +194,24 @@ class BranchAndMergeTest {
             .find { it.name == "mergeTail" }
             .also { it?.isAccessible = true }
 
-        val list = arrayListOf<Int>()
+        val list = arrayListOf<String>()
         val source1 = mockk<Scanner>()
         val source2 = mockk<Scanner>()
         val destination = mockk<PrintStream>()
 
-        every { source1.hasNextInt() } returns false
-        every { source2.hasNextInt() } returns false
-        every { destination.println(any() as Int) } answers { list.add(arg(0)) }
+        every { source1.hasNextLine() } returns false
+        every { source2.hasNextLine() } returns false
+        every { destination.println(any() as String) } answers { list.add(arg(0)) }
 
         mergeTail?.call(
-            BranchAndMerge, source1, source2, destination
+            BranchAndMerge(Int::class.java, this::defaultComparator),
+            source1,
+            source2,
+            destination
         )
 
-        list.toIntArray() `should equal` intArrayOf()
+        list.map { it.toInt() }
+            .toIntArray() `should equal` intArrayOf()
     }
 
     @Test
@@ -177,21 +220,27 @@ class BranchAndMergeTest {
             .find { it.name == "mergeTail" }
             .also { it?.isAccessible = true }
 
-        val list = arrayListOf<Int>()
+        val list = arrayListOf<String>()
         val source1 = mockk<Scanner>()
         val source2 = mockk<Scanner>()
         val destination = mockk<PrintStream>()
 
-        every { source1.hasNextInt() } returns false
-        every { source2.hasNextInt() } returnsMany listOf(true, true, false)
-        every { source2.nextInt() } returnsMany listOf(3, 7)
-        every { destination.println(any() as Int) } answers { list.add(arg(0)) }
+        every { source1.hasNextLine() } returns false
+        every { source2.hasNextLine() } returnsMany listOf(true, true, false)
+        every { source2.nextLine() } returnsMany
+                listOf(3, 7).map { it.toString() }
+        every { destination.println(any() as String) }
+            .answers { list.add(arg(0)) }
 
         mergeTail?.call(
-            BranchAndMerge, source1, source2, destination
+            BranchAndMerge(Int::class.java, this::defaultComparator),
+            source1,
+            source2,
+            destination
         )
 
-        list.toIntArray() `should equal` intArrayOf(3, 7)
+        list.map { it.toInt() }
+            .toIntArray() `should equal` intArrayOf(3, 7)
     }
 
     @Test
@@ -200,48 +249,108 @@ class BranchAndMergeTest {
             .find { it.name == "mergeTail" }
             .also { it?.isAccessible = true }
 
-        val list = arrayListOf<Int>()
+        val list = arrayListOf<String>()
         val source1 = mockk<Scanner>()
         val source2 = mockk<Scanner>()
         val destination = mockk<PrintStream>()
 
-        every { source1.hasNextInt() } returnsMany listOf(true, false)
-        every { source1.nextInt() } returns 1
-        every { source2.hasNextInt() } returns false
-        every { destination.println(any() as Int) } answers { list.add(arg(0)) }
+        every { source1.hasNextLine() } returnsMany listOf(true, false)
+        every { source1.nextLine() } returns "1"
+        every { source2.hasNextLine() } returns false
+        every { destination.println(any() as String) }
+            .answers { list.add(arg(0)) }
 
         mergeTail?.call(
-            BranchAndMerge, source1, source2, destination
+            BranchAndMerge(Int::class.java, this::defaultComparator),
+            source1,
+            source2,
+            destination
         )
 
-        list.toIntArray() `should equal` intArrayOf(1)
+        list.map { it.toInt() }
+            .toIntArray() `should equal` intArrayOf(1)
     }
 
     @Test
     fun sortAlreadySortedTest() {
-        val path = "/tmp/test"
-        val ps = PrintStream(path)
+        val filePath = "/tmp/test"
+        val ps = PrintStream(filePath)
         val testSet = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 14, 16, 21, 34, 45)
 
         testSet.forEach { ps.println(it) }
         ps.close()
 
-        BranchAndMerge.run(File(path))
+        BranchAndMerge(Int::class.java, this::defaultComparator)
+            .run(File(filePath))
 
-        File(path).readLines().map { it.toInt() } `should equal` testSet
+        File(filePath).readLines()
+            .map { it.toInt() } `should equal` testSet
     }
 
     @Test
     fun sortTest() {
-        val path = "/tmp/test"
-        val ps = PrintStream(path)
+        val filePath = "/tmp/test"
+        val ps = PrintStream(filePath)
         val testSet = listOf(6, 2, 39, 4, 5, 11, 7, 99, 9, 10, 3, 16, 1, 45, 44)
 
         testSet.forEach { ps.println(it) }
         ps.close()
 
-        BranchAndMerge.run(File(path))
+        BranchAndMerge(Int::class.java, this::defaultComparator)
+            .run(File(filePath))
 
-        File(path).readLines().map { it.toInt() } `should equal` testSet.sorted()
+        File(filePath).readLines()
+            .map { it.toInt() } `should equal` testSet.sorted()
+    }
+
+    @Test
+    fun reverseSortTest() {
+        val filePath = "/tmp/test"
+        val ps = PrintStream(filePath)
+        val testSet = listOf(6, 2, 39, 4, 5, 11, 7, 99, 9, 10, 3, 16, 1, 45, 44)
+
+        testSet.forEach { ps.println(it) }
+        ps.close()
+
+        BranchAndMerge(Int::class.java) { it1, it2 -> it2.compareTo(it1) }
+            .run(File(filePath))
+
+        File(filePath).readLines()
+            .map { it.toInt() } `should equal` testSet.sorted().reversed()
+    }
+
+    data class Person(val firstName: String, val lastName: String, val age: Int)
+
+    @Test
+    fun sortPersonsByAge() {
+        val filePath = "/tmp/test"
+        val ps = PrintStream(filePath)
+        val gson = Gson()
+        val testSet = listOf(
+            Person("Name1", "Surname1", 25),
+            Person("Name2", "Surname2", 15),
+            Person("Name3", "Surname3", 39),
+            Person("Name4", "Surname4", 10),
+            Person("Name5", "Surname5", 4)
+        )
+
+        testSet.map { gson.toJson(it) }
+            .forEach { ps.println(it) }
+        ps.close()
+
+        val sortByAge = { p1: Person, p2: Person ->
+            p1.age.compareTo(p2.age)
+        }
+
+        BranchAndMerge(Person::class.java, sortByAge)
+            .run(File(filePath))
+
+        File(filePath).readLines()
+            .map { gson.fromJson(it, Person::class.java) } `should equal`
+                testSet.sortedBy { it.age }
+    }
+
+    private fun <T> defaultComparator(obj1: T, obj2: T): Int {
+        return (obj1 as Comparable<T>).compareTo(obj2)
     }
 }

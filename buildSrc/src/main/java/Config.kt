@@ -30,8 +30,9 @@ object Config {
         val koin = "1.0.2"
         val junit = "5.1.0"
         val spek = "2.0.1"
-        val kotlin = "1.3.21."
+        val kotlin = "1.3.21"
         val mockk = "1.9.2"
+        val gson = "2.8.5"
     }
 
     object Libs {
@@ -43,5 +44,6 @@ object Config {
         val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
         val spekRunner = "org.spekframework.spek2:spek-runner-junit5:${Versions.spek}"
         val mockk = "io.mockk:mockk:${Versions.mockk}"
+        val gson = "com.google.code.gson:gson:${Versions.gson}"
     }
 }
