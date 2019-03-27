@@ -281,7 +281,7 @@ class BranchAndMergeTest {
         ps.close()
 
         BranchAndMerge(Int::class.java, this::defaultComparator)
-            .run(File(filePath))
+            .sort(File(filePath))
 
         File(filePath).readLines()
             .map { it.toInt() } `should equal` testSet
@@ -297,7 +297,7 @@ class BranchAndMergeTest {
         ps.close()
 
         BranchAndMerge(Int::class.java, this::defaultComparator)
-            .run(File(filePath))
+            .sort(File(filePath))
 
         File(filePath).readLines()
             .map { it.toInt() } `should equal` testSet.sorted()
@@ -313,7 +313,7 @@ class BranchAndMergeTest {
         ps.close()
 
         BranchAndMerge(Int::class.java) { it1, it2 -> it2.compareTo(it1) }
-            .run(File(filePath))
+            .sort(File(filePath))
 
         File(filePath).readLines()
             .map { it.toInt() } `should equal` testSet.sorted().reversed()
@@ -343,7 +343,7 @@ class BranchAndMergeTest {
         }
 
         BranchAndMerge(Person::class.java, sortByAge)
-            .run(File(filePath))
+            .sort(File(filePath))
 
         File(filePath).readLines()
             .map { gson.fromJson(it, Person::class.java) } `should equal`

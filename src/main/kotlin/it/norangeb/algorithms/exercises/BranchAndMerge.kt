@@ -37,10 +37,10 @@ class BranchAndMerge<T>(
     companion object {
         private const val TMP_FILE_PATH_1 = "/tmp/file1"
         private const val TMP_FILE_PATH_2 = "/tmp/file2"
+        private val GSON = Gson()
     }
-    private val GSON = Gson()
 
-    fun run(source: File) {
+    fun sort(source: File) {
         tryBranch(source)
 
         while (!isSorted()) {
