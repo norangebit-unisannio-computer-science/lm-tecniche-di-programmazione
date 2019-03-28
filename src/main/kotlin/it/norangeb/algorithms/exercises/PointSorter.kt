@@ -40,6 +40,8 @@ data class Point(val x: Double, val y: Double) {
 
     fun theta(): Double = Math.atan2(y, x)
 
+    fun r(): Double = Math.sqrt(x*x + y*y)
+
     companion object {
         fun thetaComparator(
             p1: Point,
@@ -70,6 +72,10 @@ fun main(args: Array<String>) {
         list.add(P(args[i].toDouble(), args[i + 1].toDouble()))
 
     val points = list.toTypedArray()
+
+    Mergesort.sortBy(points) {
+        (it - origin).r()
+    }
 
     val compare = { p1: Point, p2: Point ->
         Point.thetaComparator(p1, p2, origin)
