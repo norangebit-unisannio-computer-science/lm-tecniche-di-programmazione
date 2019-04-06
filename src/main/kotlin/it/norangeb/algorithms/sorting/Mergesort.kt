@@ -25,20 +25,8 @@
 
 package it.norangeb.algorithms.sorting
 
-object Mergesort : Sorter {
-    override fun <T : Comparable<T>> sort(array: Array<T>) {
-        sort(array) { t1, t2 -> t1 < t2 }
-    }
-
-    override fun <T, C : Comparable<C>> sortBy(array: Array<T>, compareBy: (T) -> C) {
-        sort(array) { t1, t2 -> compareBy(t1) < compareBy(t2) }
-    }
-
-    override fun <T> sortWith(array: Array<T>, compare: (T, T) -> Int) {
-        sort(array) { t1, t2 -> compare(t1, t2) < 0 }
-    }
-
-    private fun <T> sort(array: Array<T>, isLess: (T, T) -> Boolean) {
+object Mergesort : Sorter() {
+    override fun <T> sort(array: Array<T>, isLess: (T, T) -> Boolean) {
         val auxiliary = arrayOfNulls<Any>(array.size) as Array<T>
         sort(array, auxiliary, 0, array.size - 1, isLess)
     }

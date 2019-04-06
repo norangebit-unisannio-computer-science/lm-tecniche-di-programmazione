@@ -25,8 +25,18 @@
 
 package it.norangeb.algorithms.sorting
 
-interface Sorter {
-    fun <T : Comparable<T>> sort(array: Array<T>)
-    fun <T, C : Comparable<C>> sortBy(array: Array<T>, compareBy: (T) -> C)
-    fun <T> sortWith(array: Array<T>, compare: (T, T) -> Int)
+abstract class Sorter {
+    fun <T : Comparable<T>> sort(array: Array<T>) {
+        sort(array) { t1, t2 -> t1 < t2 }
+    }
+
+    fun <T, C : Comparable<C>> sortBy(array: Array<T>, compareBy: (T) -> C) {
+        sort(array) { t1, t2 -> compareBy(t1) < compareBy(t2) }
+    }
+
+    fun <T> sortWith(array: Array<T>, compare: (T, T) -> Int) {
+        sort(array) { t1, t2 -> compare(t1, t2) < 0 }
+    }
+
+    abstract fun <T> sort(array: Array<T>, isLess: (T, T) -> Boolean)
 }
