@@ -1,0 +1,10 @@
+kind: pipeline
+name: default
+
+steps:
+- name: test
+  image: java:openjdk-8
+  enviroment:
+  - GRADLE_USER_HOME=~/.gradle
+  commands:
+  - ./gradlew test
