@@ -8,3 +8,12 @@ steps:
   - GRADLE_USER_HOME=~/.gradle
   commands:
   - ./gradlew test
+- name: notify
+  image: plugins/matrix
+  settings:
+    homeserver: https://chat.privacytools.io
+    roomid: AgrJcbhHZhTJVmhPSi:privacytools.io
+    username:
+      from_secret: matrix_username
+    password:
+      from_secret: matrix_password
