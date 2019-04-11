@@ -11,7 +11,7 @@ steps:
 - name: notify
   image: plugins/matrix
   settings:
-    homeserver: https://chat.privacytools.io
+    homeserver: https://chat.weho.st
     roomid: AgrJcbhHZhTJVmhPSi:privacytools.io
     username:
       from_secret: matrix_username
