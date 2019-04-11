@@ -37,8 +37,8 @@ interface Dictionary<K, V> {
 }
 
 interface OrderedDictionary<K : Comparable<K>, V> : Dictionary<K, V> {
-    fun max(): K
-    fun min(): K
-    fun floor(key: K): K
-    fun ceiling(key: K): K
+    fun max(): Option<K>
+    fun min(): Option<K>
+    fun floor(key: K): Option<K>
+    fun ceiling(key: K): Option<K>
 }
