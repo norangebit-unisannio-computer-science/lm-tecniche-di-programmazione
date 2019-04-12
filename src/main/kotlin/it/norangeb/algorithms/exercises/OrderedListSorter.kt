@@ -25,8 +25,10 @@
 
 package it.norangeb.algorithms.exercises
 
+import it.norangeb.algorithms.datastructures.queue.priority.BinaryHeap
+
 object OrderedListSorter {
-    fun sort(vararg lists: List<Int>): List<Int> {
+    fun sortUnsignedInt(vararg lists: List<Int>): List<Int> {
         val bias = lists.map { it.first() }.sorted().first()
         val upperBound = lists.map { it.last() }.sorted().last()
         val bucket = Array(upperBound - bias + 1) { 0 }
@@ -55,4 +57,28 @@ object OrderedListSorter {
 
         return (outList as Array<Int>).toList()
     }
+
+    fun <T : Comparable<T>> sort(vararg lists: List<T>): List<T> {
+        val heap = BinaryHeap.createMinPriorityQueue<Node<T>, T> { it.value }
+        lists.forEachIndexed { index, list ->
+            heap.insert(Node(list.first(), index, 0))
+        }
+
+        val outList = ArrayList<T>()
+
+        while (!heap.isEmpty()) {
+            heap.pop().map {
+                outList.add(it.value)
+                val k = it.k
+                val n = it.n + 1
+
+                if (lists[k].size > n)
+                    heap.insert(Node(lists[k][n], k, n))
+            }
+        }
+
+        return outList
+    }
+
+    data class Node<T>(val value: T, val k: Int, val n: Int)
 }
