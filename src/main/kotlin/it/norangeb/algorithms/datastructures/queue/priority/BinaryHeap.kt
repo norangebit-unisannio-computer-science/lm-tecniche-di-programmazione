@@ -57,16 +57,8 @@ class BinaryHeap<T> private constructor(
         return result.toOption()
     }
 
-    private fun print() {
-        print("|")
-        array.forEach {
-            print(" $it |")
-        }
-        println()
-    }
-
     override fun peek(): Option<T> = if (size >= 1)
-        array[1].toOption()
+        array[FIRST_ELEMENT].toOption()
     else
         None
 
@@ -84,7 +76,6 @@ class BinaryHeap<T> private constructor(
                 exchange(array, k / WAY, k)
                 pushUp(array, k / WAY)
             }
-            else -> return
         }
     }
 
@@ -109,9 +100,8 @@ class BinaryHeap<T> private constructor(
     }
 
     private fun exchange(array: Array<T?>, i: Int, j: Int) {
-        array[i] = array[j].also {
-            array[j] = array[i]
-        }
+        array[i] = array[j]
+            .also { array[j] = array[i] }
     }
 
     private fun isFull(): Boolean = size + 1 == array.size

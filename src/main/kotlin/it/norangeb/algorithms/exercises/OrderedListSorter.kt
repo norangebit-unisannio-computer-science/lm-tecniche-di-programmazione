@@ -60,8 +60,8 @@ object OrderedListSorter {
 
     fun <T : Comparable<T>> sort(vararg lists: List<T>): List<T> {
         val heap = BinaryHeap.createMinPriorityQueue<Node<T>, T> { it.value }
-        lists.forEachIndexed { index, list ->
-            heap.insert(Node(list.first(), index, 0))
+        lists.forEachIndexed { k, list ->
+            heap.insert(Node(list.first(), k, 0))
         }
 
         val outList = ArrayList<T>()
