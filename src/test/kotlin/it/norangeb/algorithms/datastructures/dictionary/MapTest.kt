@@ -30,13 +30,13 @@ import arrow.core.Some
 import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.`should be`
 import org.amshove.kluent.should
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class MapTest {
     lateinit var map: Dictionary<String, Int>
 
-    @Before
+    @BeforeEach
     fun init() {
         map = Map()
     }

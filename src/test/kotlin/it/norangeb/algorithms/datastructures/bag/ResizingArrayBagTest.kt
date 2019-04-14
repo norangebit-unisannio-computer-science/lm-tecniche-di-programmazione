@@ -26,13 +26,13 @@
 package it.norangeb.algorithms.datastructures.bag
 
 import org.amshove.kluent.`should be equal to`
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class ResizingArrayBagTest {
-    private var bag = ResizingArrayBag<Int>()
+    private lateinit var bag :ResizingArrayBag<Int>
 
-    @Before
+    @BeforeEach
     fun makeBag() {
         bag = ResizingArrayBag()
     }

@@ -26,13 +26,13 @@
 package it.norangeb.algorithms.datastructures.unionfind
 
 import org.amshove.kluent.`should be equal to`
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class QuickFindTest {
-    private var unionFind = QuickFind(10)
+    private lateinit var unionFind : QuickFind
 
-    @Before
+    @BeforeEach
     fun init() {
         unionFind = QuickFind(10)
     }

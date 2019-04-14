@@ -26,13 +26,13 @@
 package it.norangeb.algorithms.datastructures.unionfind
 
 import org.amshove.kluent.`should be equal to`
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class QuickUnionWithSizeTest {
-    private var unionFind = QuickUnionWithSize(10)
+    private lateinit var unionFind : QuickUnionWithSize
 
-    @Before
+    @BeforeEach
     fun init() {
         unionFind = QuickUnionWithSize(10)
     }

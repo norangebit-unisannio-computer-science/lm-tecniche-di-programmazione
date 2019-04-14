@@ -28,14 +28,14 @@ package it.norangeb.algorithms.datastructures.stack
 import arrow.core.None
 import arrow.core.getOrElse
 import org.amshove.kluent.`should be equal to`
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class LinkedListStackTest {
-    private var stack = LinkedListStack<Int>()
+    private lateinit var stack : LinkedListStack<Int>
 
-    @Before
-    fun makeStack() {
+    @BeforeEach
+    fun init() {
         stack = LinkedListStack()
     }
 

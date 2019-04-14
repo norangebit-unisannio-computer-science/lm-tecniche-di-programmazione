@@ -29,13 +29,13 @@ import arrow.core.None
 import arrow.core.Some
 import arrow.core.getOrElse
 import org.amshove.kluent.`should be equal to`
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class ResizingArrayQueueTest {
-    private var queue = ResizingArrayQueue<Int>()
+    private lateinit var queue : ResizingArrayQueue<Int>
 
-    @Before
+    @BeforeEach
     fun makeQueue() {
         queue = ResizingArrayQueue()
     }

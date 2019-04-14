@@ -26,22 +26,16 @@
 package it.norangeb.algorithms.exercises
 
 import org.amshove.kluent.`should equal`
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class OrderedListSorterTest {
 
-    lateinit var lists: List<List<Int>>
-
-    @Before
-    fun init() {
-        lists = listOf(
+    val lists = listOf(
             listOf(1, 5, 9, 10, 12, 14, 15, 15, 20, 25, 29, 31, 35, 37, 43, 48),
             listOf(2, 7, 12, 21, 23, 33, 35, 43, 45),
             listOf(3, 7, 9, 12, 14, 16, 27, 28, 37, 39, 45, 45, 46, 50),
             listOf(1, 8, 9, 11, 13, 21, 25, 33, 34, 41, 47, 48)
         )
-    }
 
     @Test
     fun testSortUnsignedInt() {

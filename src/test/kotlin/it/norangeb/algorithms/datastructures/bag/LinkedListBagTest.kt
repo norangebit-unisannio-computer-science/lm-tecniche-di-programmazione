@@ -26,14 +26,14 @@
 package it.norangeb.algorithms.datastructures.bag
 
 import org.amshove.kluent.`should be equal to`
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class LinkedListBagTest {
-    private var bag = LinkedListBag<Int>()
+    private lateinit var bag :LinkedListBag<Int>
 
-    @Before
-    fun makeBag() {
+    @BeforeEach
+    fun init() {
         bag = LinkedListBag()
     }
 
