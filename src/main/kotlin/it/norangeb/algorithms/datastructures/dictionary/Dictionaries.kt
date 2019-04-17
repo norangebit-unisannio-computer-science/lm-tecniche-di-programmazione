@@ -41,4 +41,8 @@ interface OrderedDictionary<K : Comparable<K>, V> : Dictionary<K, V> {
     fun min(): Option<K>
     fun floor(key: K): Option<K>
     fun ceiling(key: K): Option<K>
+    fun select(pos: Int): Option<K>
+    fun <R> preOrder(transform: (K) -> R)
+    fun <R> inOrder(transform: (K) -> R)
+    fun <R> postOrder(transform: (K) -> R)
 }
