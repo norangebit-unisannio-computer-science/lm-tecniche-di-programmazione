@@ -29,7 +29,6 @@ import arrow.core.None
 import arrow.core.Some
 import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.`should be`
-import org.amshove.kluent.should
 import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test
 
@@ -39,11 +38,12 @@ class ImmutableBSTTest {
     @Test
     fun test() {
         val orderedMap: OrderedDictionary<String, Int> = ImmutableBST()
+
         orderedMap.isEmpty() `should be` true
         orderedMap.size() `should be equal to` 0
         orderedMap.contains("UNO") `should be` false
-        orderedMap.max() `should be` None
-        orderedMap.min() `should be` None
+        orderedMap.max() shouldEqual  None
+        orderedMap.min() shouldEqual  None
 
         orderedMap["QUATTRO"] = 4
         orderedMap["UNO"] = 0
@@ -54,13 +54,13 @@ class ImmutableBSTTest {
         orderedMap["UNO"] = 1
 
         orderedMap.size() `should be equal to` 3
-        orderedMap["UNO"] should { this == Some(1) }
+        orderedMap["UNO"] shouldEqual Some(1)
 
         orderedMap["DUE"] = 2
 
-        orderedMap["DUE"] should { this == Some(2) }
-        orderedMap.max() should { this == Some("UNO") }
-        orderedMap.min() should { this == Some("DUE") }
+        orderedMap["DUE"] shouldEqual Some(2)
+        orderedMap.max() shouldEqual Some("UNO")
+        orderedMap.min() shouldEqual Some("DUE")
     }
 
     @Test
@@ -88,13 +88,13 @@ class ImmutableBSTTest {
         orderedMap.delete(1)
 
         orderedMap.size() `should be equal to` 8
-        orderedMap.min() should { this == Some(2) }
+        orderedMap.min() shouldEqual  Some(2)
 
         //delete node with only right child
         orderedMap.delete(2)
 
         orderedMap.size() `should be equal to` 7
-        orderedMap.min() should { this == Some(3) }
+        orderedMap.min() shouldEqual  Some(3)
 
         //delete node with two child
         orderedMap.delete(10)
@@ -106,23 +106,27 @@ class ImmutableBSTTest {
         orderedMap.delete(11)
 
         orderedMap.size() `should be equal to` 4
-        orderedMap.max() should { this == Some(8) }
+        orderedMap.max() shouldEqual Some(8)
     }
 
     @Test
-    fun testOrderedOperation() {
+    fun testRanAndSelect() {
         val orderedMap: OrderedDictionary<Int, Int> = ImmutableBST()
 
-        orderedMap.select(0) `should be` None
+        orderedMap.select(0) shouldEqual None
+        orderedMap.rank(0) `should be equal to` 0
 
         orderedMap[9] = 9
         orderedMap[4] = 4
         orderedMap[14] = 14
 
-        orderedMap.select(0) should { this == Some(4) }
-        orderedMap.select(1) should { this == Some(9) }
-        orderedMap.select(2) should { this == Some(14) }
-        orderedMap.select(3) `should be` None
+        orderedMap.rank(5) `should be equal to` 1
+        orderedMap.rank(20) `should be equal to` 3
+        orderedMap.rank(3) `should be equal to` 0
+        orderedMap.select(0) shouldEqual Some(4)
+        orderedMap.select(1) shouldEqual Some(9)
+        orderedMap.select(2) shouldEqual Some(14)
+        orderedMap.select(3) shouldEqual None
 
         orderedMap[13] = 13
         orderedMap[15] = 15
@@ -145,36 +149,63 @@ class ImmutableBSTTest {
         orderedMap[7] = 7
         orderedMap[8] = 8
 
-        orderedMap.select(-1) `should be` None
-        orderedMap.select(0) should { this == Some(0) }
-        orderedMap.select(1) should { this == Some(1) }
-        orderedMap.select(5) should { this == Some(5) }
-        orderedMap.select(8) should { this == Some(8) }
-        orderedMap.select(9) should { this == Some(9) }
-        orderedMap.select(10) should { this == Some(10) }
-        orderedMap.select(14) should { this == Some(14) }
-        orderedMap.select(17) should { this == Some(17) }
-        orderedMap.select(18) should { this == Some(18) }
-        orderedMap.select(19) `should be` None
-
-        println(orderedMap.select(19))
+        orderedMap.select(-1) shouldEqual None
+        orderedMap.select(0) shouldEqual Some(0)
+        orderedMap.select(1) shouldEqual Some(1)
+        orderedMap.select(5) shouldEqual Some(5)
+        orderedMap.select(8) shouldEqual Some(8)
+        orderedMap.select(9) shouldEqual Some(9)
+        orderedMap.select(10) shouldEqual Some(10)
+        orderedMap.select(14) shouldEqual Some(14)
+        orderedMap.select(17) shouldEqual Some(17)
+        orderedMap.select(18) shouldEqual Some(18)
+        orderedMap.select(19) shouldEqual None
 
         val orderList = ArrayList<Int>()
         orderedMap.inOrder { orderList.add(it) }
 
-        orderList shouldEqual listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-            13, 14, 15, 16, 17, 18)
+        orderList shouldEqual listOf(
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+            13, 14, 15, 16, 17, 18
+        )
 
         val postOrderList = ArrayList<Int>()
         orderedMap.postOrder { postOrderList.add(it) }
 
-        postOrderList shouldEqual listOf(0, 1, 2, 3, 8, 7, 6, 5, 4, 10, 11, 12, 13, 18, 17, 16, 15,
-            14, 9)
+        postOrderList shouldEqual listOf(
+            0, 1, 2, 3, 8, 7, 6, 5, 4, 10, 11, 12,
+            13, 18, 17, 16, 15, 14, 9
+        )
 
         val preOrderList = ArrayList<Int>()
         orderedMap.preOrder { preOrderList.add(it) }
 
-        preOrderList shouldEqual listOf(9, 4, 3, 2, 1, 0, 5, 6, 7, 8, 14, 13, 12, 11, 10, 15, 16,
-            17, 18)
+        preOrderList shouldEqual listOf(
+            9, 4, 3, 2, 1, 0, 5, 6, 7, 8, 14, 13,
+            12, 11, 10, 15, 16, 17, 18
+        )
+    }
+
+    @Test
+    fun testFloorAndCeiling() {
+        val orderedMap: OrderedDictionary<Char, Boolean> = ImmutableBST()
+
+        orderedMap.floor('Z') shouldEqual None
+        orderedMap.ceiling('Z') shouldEqual None
+
+        orderedMap['S'] = true
+        orderedMap['X'] = true
+        orderedMap['E'] = true
+        orderedMap['A'] = true
+        orderedMap['C'] = true
+        orderedMap['R'] = true
+        orderedMap['H'] = true
+        orderedMap['M'] = true
+
+        orderedMap.floor('G') shouldEqual Some('E')
+        orderedMap.floor('D') shouldEqual Some('C')
+        orderedMap.floor('R') shouldEqual Some('R')
+        orderedMap.ceiling('Q') shouldEqual Some('R')
+        orderedMap.ceiling('A') shouldEqual Some('A')
     }
 }

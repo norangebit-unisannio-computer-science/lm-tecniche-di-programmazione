@@ -25,10 +25,7 @@
 
 package it.norangeb.algorithms.datastructures.dictionary
 
-import arrow.core.None
-import arrow.core.Option
-import arrow.core.Some
-import arrow.core.toOption
+import arrow.core.*
 
 class ImmutableBST<K : Comparable<K>, V> : OrderedDictionary<K, V> {
     private var root: Option<Node<K, V>> = None
@@ -141,12 +138,59 @@ class ImmutableBST<K : Comparable<K>, V> : OrderedDictionary<K, V> {
             }
         }
 
-    override fun floor(key: K): Option<K> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun rank(key: K): Int = rank(root, key)
+
+    private fun rank(node: Option<Node<K, V>>, key: K): Int = node.map {
+            when {
+                it.key == key -> it.child
+                key < it.key -> rank(it.left, key)
+                else -> size(it.left) + 1 + rank(it.right, key)
+            }
+        }.getOrElse { 0 }
+
+    override fun floor(key: K): Option<K> = floor(root, key).map { it.key }
+
+    private fun floor(node: Option<Node<K, V>>, key: K): Option<Node<K, V>> {
+        return node.flatMap {
+            when {
+                it.key == key -> node
+                key < it.key -> floor(it.left, key)
+                else -> floorRightIfPossible(it, key)
+            }
+        }
     }
 
-    override fun ceiling(key: K): Option<K> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun floorRightIfPossible(
+        node: Node<K, V>,
+        key: K
+    ): Option<Node<K, V>> {
+        val possibleFlor = floor(node.right, key)
+        return if (possibleFlor is Some)
+            possibleFlor
+        else
+            node.toOption()
+    }
+
+    override fun ceiling(key: K): Option<K> = ceiling(root, key).map { it.key }
+
+    private fun ceiling(node: Option<Node<K, V>>, key: K): Option<Node<K, V>> {
+        return node.flatMap {
+            when {
+                it.key == key -> node
+                key > it.key -> ceiling(it.right, key)
+                else -> ceilingLeftIfpossible(it, key)
+            }
+        }
+    }
+
+    private fun ceilingLeftIfpossible(
+        node: Node<K, V>,
+        key: K
+    ): Option<Node<K, V>> {
+        val possibleCeiling = ceiling(node.left, key)
+        return if (possibleCeiling is Some)
+            possibleCeiling
+        else node.toOption()
     }
 
     override fun <R> inOrder(transform: (K) -> R) = inOrder(root, transform)
