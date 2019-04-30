@@ -32,7 +32,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class LinkedListStackTest {
-    private lateinit var stack : LinkedListStack<Int>
+    private lateinit var stack: LinkedListStack<Int>
 
     @BeforeEach
     fun init() {

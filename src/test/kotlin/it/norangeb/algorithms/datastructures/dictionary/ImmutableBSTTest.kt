@@ -32,7 +32,6 @@ import org.amshove.kluent.`should be`
 import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test
 
-
 class ImmutableBSTTest {
 
     @Test
@@ -42,8 +41,8 @@ class ImmutableBSTTest {
         orderedMap.isEmpty() `should be` true
         orderedMap.size() `should be equal to` 0
         orderedMap.contains("UNO") `should be` false
-        orderedMap.max() shouldEqual  None
-        orderedMap.min() shouldEqual  None
+        orderedMap.max() shouldEqual None
+        orderedMap.min() shouldEqual None
 
         orderedMap["QUATTRO"] = 4
         orderedMap["UNO"] = 0
@@ -84,25 +83,25 @@ class ImmutableBSTTest {
 
         orderedMap.size() `should be equal to` 9
 
-        //delete node with no child
+        // delete node with no child
         orderedMap.delete(1)
 
         orderedMap.size() `should be equal to` 8
-        orderedMap.min() shouldEqual  Some(2)
+        orderedMap.min() shouldEqual Some(2)
 
-        //delete node with only right child
+        // delete node with only right child
         orderedMap.delete(2)
 
         orderedMap.size() `should be equal to` 7
-        orderedMap.min() shouldEqual  Some(3)
+        orderedMap.min() shouldEqual Some(3)
 
-        //delete node with two child
+        // delete node with two child
         orderedMap.delete(10)
 
         orderedMap.size() `should be equal to` 6
 
         orderedMap.delete(13)
-        //delete node with only left child
+        // delete node with only left child
         orderedMap.delete(11)
 
         orderedMap.size() `should be equal to` 4

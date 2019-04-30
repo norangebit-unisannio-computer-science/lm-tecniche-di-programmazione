@@ -33,7 +33,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class ResizingArrayQueueTest {
-    private lateinit var queue : ResizingArrayQueue<Int>
+    private lateinit var queue: ResizingArrayQueue<Int>
 
     @BeforeEach
     fun makeQueue() {

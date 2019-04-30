@@ -30,7 +30,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class QuickUnionWithSizeTest {
-    private lateinit var unionFind : QuickUnionWithSize
+    private lateinit var unionFind: QuickUnionWithSize
 
     @BeforeEach
     fun init() {

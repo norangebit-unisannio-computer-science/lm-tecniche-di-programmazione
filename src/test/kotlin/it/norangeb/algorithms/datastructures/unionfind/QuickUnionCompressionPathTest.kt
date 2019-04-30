@@ -30,7 +30,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class QuickUnionCompressionPathTest {
-    private lateinit var unionFind : QuickUnion
+    private lateinit var unionFind: QuickUnion
 
     @BeforeEach
     fun init() {

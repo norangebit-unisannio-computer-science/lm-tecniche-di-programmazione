@@ -30,7 +30,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class LinkedListBagTest {
-    private lateinit var bag :LinkedListBag<Int>
+    private lateinit var bag: LinkedListBag<Int>
 
     @BeforeEach
     fun init() {

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class QuickFindTest {
-    private lateinit var unionFind : QuickFind
+    private lateinit var unionFind: QuickFind
 
     @BeforeEach
     fun init() {

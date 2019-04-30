@@ -25,7 +25,11 @@
 
 package it.norangeb.algorithms.datastructures.dictionary
 
-import arrow.core.*
+import arrow.core.getOrElse
+import arrow.core.None
+import arrow.core.Option
+import arrow.core.Some
+import arrow.core.toOption
 
 class ImmutableBST<K : Comparable<K>, V> : OrderedDictionary<K, V> {
     private var root: Option<Node<K, V>> = None
@@ -47,7 +51,8 @@ class ImmutableBST<K : Comparable<K>, V> : OrderedDictionary<K, V> {
 
     private fun set(
         node: Option<Node<K, V>>,
-        key: K, value: V
+        key: K,
+        value: V
     ): Option<Node<K, V>> = node.fold(
         { Node(key, value) },
         {

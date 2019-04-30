@@ -30,7 +30,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class ResizingArrayBagTest {
-    private lateinit var bag :ResizingArrayBag<Int>
+    private lateinit var bag: ResizingArrayBag<Int>
 
     @BeforeEach
     fun makeBag() {

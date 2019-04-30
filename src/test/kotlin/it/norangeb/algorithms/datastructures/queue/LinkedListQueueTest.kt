@@ -33,7 +33,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class LinkedListQueueTest {
-    private lateinit var queue : LinkedListQueue<Int>
+    private lateinit var queue: LinkedListQueue<Int>
 
     @BeforeEach
     fun makeQueue() {
