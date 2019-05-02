@@ -23,29 +23,29 @@
  *
  */
 
-object Config {
-    object Versions {
-        val arrow = "0.8.2"
-        val kluent = "1.49"
-        val koin = "1.0.2"
-        val junit = "5.4.2"
-        val spek = "2.0.1"
-        val kotlin = "1.3.30"
-        val mockk = "1.9.3"
-        val gson = "2.8.5"
-    }
+package it.norangeb.algorithms.exercises
 
-    object Libs {
-        val arrowCore = "io.arrow-kt:arrow-core:${Versions.arrow}"
-        val koin = "org.koin:koin-core:${Versions.koin}"
-        val junit = "org.junit.jupiter:junit-jupiter-api:${Versions.junit}"
-        val junitEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit}"
-        val kluent = "org.amshove.kluent:kluent:${Versions.kluent}"
-        val spekDsl = "org.spekframework.spek2:spek-dsl-jvm:${Versions.spek}"
-        val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
-        val spekRunner = "org.spekframework.spek2:spek-runner-junit5:${Versions.spek}"
-        val mockk = "io.mockk:mockk:${Versions.mockk}"
-        val gson = "com.google.code.gson:gson:${Versions.gson}"
-        val jetbrainJunit = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}"
+import arrow.core.None
+import arrow.core.Option
+import it.norangeb.algorithms.datastructures.queue.priority.BinaryHeap
+
+class KMin<T : Comparable<T>>(private val k: Int) {
+    private val heap = BinaryHeap.createMaxPriorityQueue<T>()
+
+    fun insert(elem: T): Option<T> {
+        heap.peek().fold(
+            { heap.insert(elem) },
+            {
+                if (elem < it || heap.size() < k)
+                    heap.insert(elem)
+            })
+
+        if (heap.size() > k)
+            heap.pop()
+
+        if (heap.size() < k)
+            return None
+
+        return heap.peek()
     }
 }

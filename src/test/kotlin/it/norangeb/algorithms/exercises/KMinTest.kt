@@ -23,29 +23,34 @@
  *
  */
 
-object Config {
-    object Versions {
-        val arrow = "0.8.2"
-        val kluent = "1.49"
-        val koin = "1.0.2"
-        val junit = "5.4.2"
-        val spek = "2.0.1"
-        val kotlin = "1.3.30"
-        val mockk = "1.9.3"
-        val gson = "2.8.5"
-    }
+package it.norangeb.algorithms.exercises
 
-    object Libs {
-        val arrowCore = "io.arrow-kt:arrow-core:${Versions.arrow}"
-        val koin = "org.koin:koin-core:${Versions.koin}"
-        val junit = "org.junit.jupiter:junit-jupiter-api:${Versions.junit}"
-        val junitEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit}"
-        val kluent = "org.amshove.kluent:kluent:${Versions.kluent}"
-        val spekDsl = "org.spekframework.spek2:spek-dsl-jvm:${Versions.spek}"
-        val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
-        val spekRunner = "org.spekframework.spek2:spek-runner-junit5:${Versions.spek}"
-        val mockk = "io.mockk:mockk:${Versions.mockk}"
-        val gson = "com.google.code.gson:gson:${Versions.gson}"
-        val jetbrainJunit = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}"
+import arrow.core.None
+import arrow.core.Some
+import org.amshove.kluent.`should be`
+import org.amshove.kluent.shouldEqual
+import org.junit.jupiter.api.Test
+
+class KMinTest {
+
+    @Test
+    fun test() {
+        val input = listOf(15, 17, 9, 12, 22, 4, 73, 87, 12, 5)
+
+        val kmin = KMin<Int>(3)
+        val result = input.map { kmin.insert(it) }
+
+        result shouldEqual listOf(
+            None,
+            None,
+            Some(17),
+            Some(15),
+            Some(15),
+            Some(12),
+            Some(12),
+            Some(12),
+            Some(12),
+            Some(9)
+        )
     }
 }
