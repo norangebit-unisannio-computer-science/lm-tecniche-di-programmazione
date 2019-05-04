@@ -102,7 +102,7 @@ class HashTable<K, V> : Dictionary<K, V> {
     override fun size(): Int = size
 
     private fun getIndex(key: K): Int {
-        return key.hashCode() % HASHTABLE_SIZE
+        return key.hashCode().and(0x7fffffff) % HASHTABLE_SIZE
     }
 
     data class Node<K, V>(

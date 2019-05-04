@@ -27,7 +27,6 @@ package it.norangeb.algorithms.exercises
 
 import arrow.core.None
 import arrow.core.Some
-import org.amshove.kluent.`should be`
 import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test
 
@@ -51,6 +50,27 @@ class KMinTest {
             Some(12),
             Some(12),
             Some(9)
+        )
+    }
+
+    @Test
+    fun test5() {
+        val input = listOf(15, 17, 9, 12, 22, 4, 73, 87, 12, 5)
+
+        val kmin = KMin<Int>(5)
+        val result = input.map { kmin.insert(it) }
+
+        result shouldEqual listOf(
+            None,
+            None,
+            None,
+            None,
+            Some(22),
+            Some(17),
+            Some(17),
+            Some(17),
+            Some(15),
+            Some(12)
         )
     }
 }
