@@ -23,29 +23,22 @@
  *
  */
 
-object Config {
-    object Versions {
-        val arrow = "0.8.2"
-        val kluent = "1.49"
-        val koin = "1.0.2"
-        val junit = "5.4.2"
-        val spek = "2.0.2"
-        val kotlin = "1.3.30"
-        val mockk = "1.9.3"
-        val gson = "2.8.5"
+package it.norangeb.algorithms.graph
+
+import it.norangeb.algorithms.graph.data.AdjacentList
+import it.norangeb.algorithms.graph.data.GraphData
+
+class Graph(
+    private val data: GraphData = AdjacentList()
+) : UndirectedGraph {
+    override fun vertexNumber(): Int = data.vertexNumber()
+
+    override fun edgeNumber(): Int = data.edgeNumber() / 2
+
+    override fun addEdge(firstVertex: Int, secondVertex: Int) {
+        data.addEdge(firstVertex, secondVertex)
+        data.addEdge(secondVertex, firstVertex)
     }
 
-    object Libs {
-        val arrowCore = "io.arrow-kt:arrow-core:${Versions.arrow}"
-        val koin = "org.koin:koin-core:${Versions.koin}"
-        val junit = "org.junit.jupiter:junit-jupiter-api:${Versions.junit}"
-        val junitEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit}"
-        val kluent = "org.amshove.kluent:kluent:${Versions.kluent}"
-        val spekDsl = "org.spekframework.spek2:spek-dsl-jvm:${Versions.spek}"
-        val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
-        val spekRunner = "org.spekframework.spek2:spek-runner-junit5:${Versions.spek}"
-        val mockk = "io.mockk:mockk:${Versions.mockk}"
-        val gson = "com.google.code.gson:gson:${Versions.gson}"
-        val jetbrainJunit = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}"
-    }
+    override fun adjacentVertex(vertex: Int): Collection<Int> = data.adjacent(vertex)
 }

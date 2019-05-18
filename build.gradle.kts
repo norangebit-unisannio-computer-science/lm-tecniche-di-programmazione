@@ -23,11 +23,10 @@ dependencies {
     testImplementation(Config.Libs.kluent)
     testImplementation(Config.Libs.mockk)
     testImplementation(Config.Libs.jetbrainJunit)
-    // testImplementation(Config.Libs.spekDsl)
+    testImplementation(Config.Libs.spekDsl)
 
     testRuntimeOnly(Config.Libs.junitEngine)
-    // testRuntimeOnly(Config.Libs.kotlinReflect)
-    // testRuntimeOnly(Config.Libs.spekRunner)
+    testRuntimeOnly(Config.Libs.spekRunner)
 }
 
 tasks.withType<KotlinCompile> {
